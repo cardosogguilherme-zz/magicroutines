@@ -15,6 +15,16 @@ import android.widget.Toast
 import com.example.guilhermecardoso.magicroutines.R
 import com.example.guilhermecardoso.magicroutines.base.BaseFragment
 import com.example.guilhermecardoso.magicroutines.searchresult.SearchResultFragment
+import com.example.guilhermecardoso.magicroutines.searchresult.SearchResultPresenter
+import com.example.guilhermecardoso.magicroutines.service.LoggingInterceptor
+import com.example.guilhermecardoso.magicroutines.service.MagicAPI
+import com.example.guilhermecardoso.magicroutines.service.service
+import com.example.guilhermecardoso.magicroutines.whenNonEmpty
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class SearchFragment: BaseFragment(), SearchContract.View {
     lateinit var nameText: EditText
@@ -41,12 +51,23 @@ class SearchFragment: BaseFragment(), SearchContract.View {
     }
 
     override fun searchPerformed(term: String) {
-        //?.add(R.id.fragment_container,SearchResultFragment(), "Result")?.addToBackStack(null)?.commit()
         val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
         fragmentTransaction?.let {
+            val presenter = SearchResultPresenter(service)
+            val fields = getFields()
+
+            val fragment = SearchResultFragment.createFragment(presenter, fields)
+            presenter.attachView(fragment)
             it.addToBackStack(this.javaClass.canonicalName)
-            it.replace(R.id.fragment_container,SearchResultFragment(), SearchResultFragment::javaClass.name)
-            it.commit()
+            it.replace(R.id.fragment_container, fragment, SearchResultFragment::javaClass.name)
         }
+        fragmentTransaction?.commit()
+    }
+
+    private fun getFields(): HashMap<String, String> {
+        val fields = HashMap<String, String>()
+
+        nameText.text.toString().whenNonEmpty { fields.put("name", value = this) }
+        return fields
     }
 }
