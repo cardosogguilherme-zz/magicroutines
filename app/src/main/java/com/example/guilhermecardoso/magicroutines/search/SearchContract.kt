@@ -7,7 +7,7 @@ interface SearchContract {
 
     interface View: BaseView {
         fun showSearchError()
-        fun searchPerformed(term: String)
+        fun searchPerformed()
     }
 
     interface Presenter: BasePresenter<View> {

@@ -11,6 +11,7 @@ interface SearchResultContract {
     }
 
     interface View: BaseView {
+        fun setSearchResultPresenter(presenter: Presenter)
         fun showResults(cards: List<Card>)
     }
 

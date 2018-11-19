@@ -6,20 +6,32 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import com.example.guilhermecardoso.magicroutines.R
 
-open class BaseFragment: Fragment(), BaseView {
+abstract class BaseFragment: Fragment(), BaseView {
     lateinit var loading: ProgressBar
+    var holderView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.base_fragment, container, false)
+        return view
+    }
 
-        loading = view.findViewById(R.id.indeterminateBar)
+    fun inflateFragment(resId: Int, inflater: LayoutInflater): View {
+
+        val inflatedView = inflater.inflate(R.layout.base_fragment, null)
+        val holder: ViewStub = inflatedView.findViewById(R.id.holder)
+        holder.layoutResource = resId
+        holderView = holder.inflate()
+
+        loading = inflatedView.findViewById(R.id.indeterminateBar)
+        loading.isIndeterminate = true
         loading.visibility = View.GONE
 
-        return view
+        return inflatedView
     }
 
     override fun showError() {

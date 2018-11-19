@@ -6,8 +6,9 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.cancelAndJoin
 import kotlinx.coroutines.experimental.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class SearchResultPresenter(val service: MagicAPI): SearchResultContract.Presenter {
+class SearchResultPresenter @Inject constructor(private val service: MagicAPI): SearchResultContract.Presenter {
     lateinit var view: SearchResultContract.View
     var jobs: Job? = null
 

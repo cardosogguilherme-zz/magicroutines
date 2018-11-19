@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="70dp">
 
     <TextView
         android:id="@+id/card_cell_name"
@@ -16,9 +14,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Some Black Spell"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/card_cell_mana_cost"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/card_cell_mana_cost"
@@ -27,6 +27,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="3{B}{B}{B}"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/card_cell_name" />
+
+    <TextView
+        android:id="@+id/card_cell_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Urza's Saga"
+        app:layout_constraintStart_toStartOf="@+id/card_cell_name"
+        app:layout_constraintTop_toBottomOf="@+id/card_cell_name" />
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.guilhermecardoso.magicroutines.R
 import com.example.guilhermecardoso.magicroutines.service.Card
 
-class SearchResultAdapter(val context: Context, val items: List<Card>): RecyclerView.Adapter<ViewHolder>() {
+class SearchResultAdapter(val context: Context, val items: MutableList<Card>): RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder = ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_cell, p0, false))
 
@@ -18,6 +18,8 @@ class SearchResultAdapter(val context: Context, val items: List<Card>): Recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.cardName.text = items[position].name
         holder.manaCost.text = items[position].manaCost
+        holder.setName.text = items[position].setName
+
     }
 }
 
@@ -25,4 +27,5 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val cardName = view.findViewById<TextView>(R.id.card_cell_name)
     val manaCost = view.findViewById<TextView>(R.id.card_cell_mana_cost)
+    val setName = view.findViewById<TextView>(R.id.card_cell_set)
 }

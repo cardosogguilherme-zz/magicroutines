@@ -18,38 +18,38 @@ interface MagicAPI {
     fun cards(@QueryMap fields: Map<String, String>? = null): Deferred<ResponseCards>
 }
 
-private val client = OkHttpClient.Builder().
-        readTimeout(1, TimeUnit.MINUTES).
-        connectTimeout(1, TimeUnit.MINUTES).
-        addInterceptor(LoggingInterceptor()).build()
+//private val client = OkHttpClient.Builder().
+//        readTimeout(1, TimeUnit.MINUTES).
+//        connectTimeout(1, TimeUnit.MINUTES).
+//        addInterceptor(LoggingInterceptor()).build()
+//
+//private val retrofit = Retrofit.Builder()
+//        .baseUrl("http://api.magicthegathering.io/")
+//        .client(client)
+//        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
+//
+//val service = retrofit.create(MagicAPI::class.java)!!
 
-private val retrofit = Retrofit.Builder()
-        .baseUrl("http://api.magicthegathering.io/")
-        .client(client)
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-val service = retrofit.create(MagicAPI::class.java)
-
-data class Card(val name: String, val manaCost: String)
+data class Card(val name: String, val set: String, val setName: String, val manaCost: String)
 data class ResponseCards(val cards: List<Card>)
 
-internal class LoggingInterceptor : Interceptor {
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-
-        val t1 = System.nanoTime()
-        Log.d("INTERCEPTOR",String.format("Sending request %s on %s%n%s",
-                request.url(), chain.connection(), request.headers()))
-
-        val response = chain.proceed(request)
-
-        val t2 = System.nanoTime()
-        Log.d("INTERCEPTOR",String.format("Received response for %s in %.1fms%n%s",
-                response.request().url(), (t2 - t1) / 1e6, response.headers()))
-
-        return response
-    }
-}
+//internal class LoggingInterceptor : Interceptor {
+//    @Throws(IOException::class)
+//    override fun intercept(chain: Interceptor.Chain): Response {
+//        val request = chain.request()
+//
+//        val t1 = System.nanoTime()
+//        Log.d("INTERCEPTOR",String.format("Sending request %s on %s%n%s",
+//                request.url(), chain.connection(), request.headers()))
+//
+//        val response = chain.proceed(request)
+//
+//        val t2 = System.nanoTime()
+//        Log.d("INTERCEPTOR",String.format("Received response for %s in %.1fms%n%s",
+//                response.request().url(), (t2 - t1) / 1e6, response.headers()))
+//
+//        return response
+//    }
+//}
