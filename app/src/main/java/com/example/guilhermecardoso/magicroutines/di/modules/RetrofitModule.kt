@@ -1,6 +1,7 @@
 package com.example.guilhermecardoso.magicroutines.di.modules
 
 import android.content.Context
+import com.example.guilhermecardoso.magicroutines.service.LoggingInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -46,9 +47,7 @@ class RetrofitModule {
     fun providesConverterFactory(): Converter.Factory = GsonConverterFactory.create()
 
     @Provides
-    fun providesInterceptor(): Interceptor = HttpLoggingInterceptor(
-            HttpLoggingInterceptor.Logger { Timber.d(it) }
-    ).apply { level = HttpLoggingInterceptor.Level.BASIC }
+    fun providesInterceptor(): Interceptor = LoggingInterceptor()
 
     @Provides
     fun providesCache(context: Context): Cache = Cache(context.cacheDir, 5 * 1024 * 1024)
@@ -56,3 +55,4 @@ class RetrofitModule {
     @Provides
     fun providesBaseURL(): String = "http://api.magicthegathering.io/"
 }
+

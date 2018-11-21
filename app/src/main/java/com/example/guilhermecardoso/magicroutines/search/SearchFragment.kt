@@ -10,16 +10,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import com.example.guilhermecardoso.magicroutines.R
 import com.example.guilhermecardoso.magicroutines.base.BaseFragment
-import com.example.guilhermecardoso.magicroutines.di.buildPresenter
-import com.example.guilhermecardoso.magicroutines.di.components.DaggerAppComponent
-import com.example.guilhermecardoso.magicroutines.di.modules.ContextModule
 import com.example.guilhermecardoso.magicroutines.searchresult.SearchResultFragment
-import com.example.guilhermecardoso.magicroutines.searchresult.SearchResultPresenter
-//import com.example.guilhermecardoso.magicroutines.service.service
 import com.example.guilhermecardoso.magicroutines.whenNonEmpty
-import javax.inject.Inject
 
 class SearchFragment: BaseFragment(), SearchContract.View {
     lateinit var nameText: EditText
@@ -42,7 +37,9 @@ class SearchFragment: BaseFragment(), SearchContract.View {
 
         val searchButton = view.findViewById<ImageView>(R.id.search_button)
         searchButton.setOnClickListener {
-            searchPerformed()
+            val arguments = Bundle()
+            arguments.putSerializable(SearchResultFragment.KEY_FIELDS, getFields())
+            it.findNavController().navigate(R.id.searchResultFragment, arguments)
         }
         return view
     }
@@ -52,16 +49,16 @@ class SearchFragment: BaseFragment(), SearchContract.View {
     }
 
     override fun searchPerformed() {
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.let {
-
-            val fields = getFields()
-
-            val fragment = SearchResultFragment.createFragment(fields)
-            it.addToBackStack(this.javaClass.canonicalName)
-            it.replace(R.id.fragment_container, fragment, SearchResultFragment::javaClass.name)
-        }
-        fragmentTransaction?.commit()
+//        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+//        fragmentTransaction?.let {
+//
+//            val fields = getFields()
+//
+//            val fragment = SearchResultFragment.createFragment(fields)
+//            it.addToBackStack(this.javaClass.canonicalName)
+//            it.replace(R.id.fragment_container, fragment, SearchResultFragment::javaClass.name)
+//        }
+//        fragmentTransaction?.commit()
     }
 
     private fun getFields(): HashMap<String, String> {
